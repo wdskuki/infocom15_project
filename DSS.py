@@ -46,7 +46,7 @@ def forceSelectProviderNewComer(G, N, Ni, fnodei, di):
 
 	for nc in backNewComers:
 		for pds in backProviders:
-			tmpBottleNetBW = max([G[i][nc] for i in pds])
+			tmpBottleNetBW = min([G[i][nc] for i in pds])
 			if tmpBottleNetBW > bottleNetBW:
 				bottleNetBW = tmpBottleNetBW
 				newcomer = nc
@@ -75,36 +75,62 @@ def optimalSelectProviderNewComer(G, N, Ni, fnodei, di):
 			break
 	return newcomer, providers
 
+
+def getBottleNetBW(G, newcomer, providers):
+	return min([G[i][newcomer] for i in providers])
+
 if __name__ == '__main__':
-	N = 50
-	(b1, b2) = (10, 120)
-	ni = 10
-	ki = 4
-	di = 6
+	N = 1000
+	(b1, b2) = (0.3, 120)
+	ni = 14
+	ki = 10
+	di = 10
 
-	G = fullConnectedGraph(N)
-	G = randomLinkWeight(G, (b1, b2))
-	
-	Ni = randomSelectBlocksStoredNodes(N, ni)
-	(fnodei, Ni) = 	randomFailedStoredNode(Ni)
+	loopNum = 100
 
-	start = time.time()
-	(newcomer, providers) = randomSelectProviderNewComer(G, N, Ni, fnodei, di)
-	elapsed = time.time() - start
-	print "force: (%s, %s)" % (fnodei, Ni)
-	print "force: (%s, %s)" % (newcomer, providers) 
-	print "force: elapsed = %s\n" % elapsed
+	randomOutputFile = open("./output/random_%s_%s_%s_%s_%s_%s_%s.txt" % \
+		(N, b1, b2, ni, ki, di,loopNum), "w")
+	# forceOutputFile = open("forceOutputFile.txt", "w")
+	optimalOutputFile = open("./output/optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
+		(N, b1, b2, ni, ki, di,loopNum), "w")
 
-	start = time.time()
-	(newcomer, providers) = forceSelectProviderNewComer(G, N, Ni, fnodei, di)
-	elapsed = time.time() - start
-	print "force: (%s, %s)" % (fnodei, Ni)
-	print "force: (%s, %s)" % (newcomer, providers) 
-	print "force: elapsed = %s\n" % elapsed
+	for i in range(loopNum):
+		G = fullConnectedGraph(N)
+		G = randomLinkWeight(G, (b1, b2))
+		
+		Ni = randomSelectBlocksStoredNodes(N, ni)
+		(fnodei, Ni) = 	randomFailedStoredNode(Ni)
 
-	start = time.time()
-	(newcomer, providers) = optimalSelectProviderNewComer(G, N, Ni, fnodei, di)
-	elapsed = time.time() - start
-	print "optimal: (%s, %s)" % (fnodei, Ni)
-	print "optimal: (%s, %s)" % (newcomer, providers) 
-	print "force: elapsed = %s\n" % elapsed
+		start = time.time()
+		(newcomer, providers) = randomSelectProviderNewComer(G, N, Ni, fnodei, di)
+		elapsed = time.time() - start
+		bottleNetBW = getBottleNetBW(G, newcomer, providers)
+		randomOutputFile.write("%s\t%s\n" % (bottleNetBW, elapsed))
+		print "random: (%s, %s)" % (fnodei, Ni)
+		print "random: (%s, %s)" % (newcomer, providers) 
+		print "random: bottleNetBW = %s" % bottleNetBW
+		print "random: elapsed = %ss\n" % elapsed
+
+		# start = time.time()
+		# (newcomer, providers) = forceSelectProviderNewComer(G, N, Ni, fnodei, di)
+		# elapsed = time.time() - start
+		# bottleNetBW = getBottleNetBW(G, newcomer, providers)
+		# print "force: (%s, %s)" % (fnodei, Ni)
+		# print "force: (%s, %s)" % (newcomer, providers)
+		# print "force: bottleNetBW = %s" % bottleNetBW
+		# print "force: elapsed = %ss\n" % elapsed
+
+		start = time.time()
+		(newcomer, providers) = optimalSelectProviderNewComer(G, N, Ni, fnodei, di)
+		elapsed = time.time() - start
+		bottleNetBW = getBottleNetBW(G, newcomer, providers)
+		optimalOutputFile.write("%s\t%s\n" % (bottleNetBW, elapsed))	
+		print "optimal: (%s, %s)" % (fnodei, Ni)
+		print "optimal: (%s, %s)" % (newcomer, providers) 
+		print "optimal: bottleNetBW = %s" % bottleNetBW
+		print "optimal: elapsed = %ss\n" % elapsed
+
+	randomOutputFile.close()
+	#forceOutputFile.close()
+	optimalOutputFile.close()
+
