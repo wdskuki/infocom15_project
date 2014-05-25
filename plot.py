@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-
 b1 = [0.3, 1, 10, 30, 50, 70, 90]
 b2 = 120
 (N, ni, ki, di, loopNum) = (1000, 14, 10, 10, 100)
@@ -10,6 +8,7 @@ randomMeans = []
 randomStd = []
 optimalMeans = []
 optimalStd = []
+
 
 for i in b1:
 	random = np.loadtxt("./output/random_1000_%s_120_14_10_10_100.txt" % i)
