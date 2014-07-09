@@ -3,32 +3,9 @@
 import random
 import itertools
 import time
-def fullConnectedGraph(N = 0):
-	return [[0]*N]*N
+import fullWeightedGraph as fwg
 
-def randomLinkWeight(G, (b1, b2)):
-	if len(G) == 0 or b1 > b2 or b1 < 0:
-		print 'error: in randomLinkWeight()'
-		return G
 
-	for i in range(len(G)):
-		for j in range(len(G[i])):
-			G[i][j] = random.uniform(b1, b2)
-	return G
-
-def randomSelectBlocksStoredNodes(N, ni):
-	if ni > N or ni <= 0 or N <= 0:
-		print 'error: in randomSelectBlocksStoredNodes()'
-		return []
-	return random.sample(range(N), ni)
-
-def randomFailedStoredNode(Ni):
-	if Ni == []:
-		print 'error: in randomFailedStoredNode()'
-		return -1
-	fnodei = random.choice(Ni)
-	Ni.remove(fnodei)
-	return fnodei, Ni
 
 def randomSelectProviderNewComer(G, N, Ni, fnodei, di):
 	backNewComers = list(set(range(N)) - set(Ni + [fnodei]))
@@ -75,7 +52,6 @@ def optimalSelectProviderNewComer(G, N, Ni, fnodei, di):
 			break
 	return newcomer, providers
 
-
 def getBottleNetBW(G, newcomer, providers):
 	return min([G[i][newcomer] for i in providers])
 
@@ -86,20 +62,20 @@ if __name__ == '__main__':
 	ki = 10
 	di = 10
 
-	loopNum = 100
+	loopNum = 10
 
-	randomOutputFile = open("./output/random_%s_%s_%s_%s_%s_%s_%s.txt" % \
+	randomOutputFile = open("./output/rprn_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
 		(N, b1, b2, ni, ki, di,loopNum), "w")
 	# forceOutputFile = open("forceOutputFile.txt", "w")
-	optimalOutputFile = open("./output/optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
+	optimalOutputFile = open("./output/rprn_optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
 		(N, b1, b2, ni, ki, di,loopNum), "w")
 
 	for i in range(loopNum):
-		G = fullConnectedGraph(N)
-		G = randomLinkWeight(G, (b1, b2))
+		G = fwg.fullConnectedGraph(N)
+		G = fwg.randomLinkWeight(G, (b1, b2))
 		
-		Ni = randomSelectBlocksStoredNodes(N, ni)
-		(fnodei, Ni) = 	randomFailedStoredNode(Ni)
+		Ni = fwg.randomSelectBlocksStoredNodes(N, ni)
+		(fnodei, Ni) = 	fwg.randomFailedStoredNode(Ni)
 
 		start = time.time()
 		(newcomer, providers) = randomSelectProviderNewComer(G, N, Ni, fnodei, di)
