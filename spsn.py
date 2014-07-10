@@ -1,11 +1,14 @@
+'''
+Created on Jul 10, 2014
+@author: Dongsheng Wei(12210240069@fudan.edu.cn)
+'''
+
 #generage a N node's full connected graph with random weights links
 
 import random
 import itertools
 import time
 import fullWeightedGraph as fwg
-
-
 
 def randomSelectProviderNewComer(G, N, Ni, fnodei, di):
 	backNewComers = list(set(range(N)) - set(Ni + [fnodei]))
@@ -55,17 +58,17 @@ def optimalSelectProviderNewComer(G, N, Ni, fnodei, di):
 
 if __name__ == '__main__':
 	N = 1000
-	(b1, b2) = (0.3, 120)
+	(b1, b2) = (70, 120)
 	ni = 14
 	ki = 10
 	di = 10
 
-	loopNum = 10
+	loopNum = 100
 
-	randomOutputFile = open("./output/rprn_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
+	randomOutputFile = open("./output/spsn_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
 		(N, b1, b2, ni, ki, di,loopNum), "w")
 	# forceOutputFile = open("forceOutputFile.txt", "w")
-	optimalOutputFile = open("./output/rprn_optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
+	optimalOutputFile = open("./output/spsn_optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
 		(N, b1, b2, ni, ki, di,loopNum), "w")
 
 	for i in range(loopNum):

@@ -26,17 +26,17 @@ def optimalSelectNewComer(G, N, Ni, fnodei, providers):
 
 if __name__ == '__main__':
 	N = 1000
-	(b1, b2) = (0.3, 120)
+	(b1, b2) = (70, 120)
 	ni = 14
 	ki = 10
 	di = 10
 
-	loopNum = 10
+	loopNum = 100
 
-	randomOutputFile = open("./output/fprn_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
+	randomOutputFile = open("./output/fpsn_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
 		(N, b1, b2, ni, ki, di,loopNum), "w")
 	# forceOutputFile = open("forceOutputFile.txt", "w")
-	optimalOutputFile = open("./output/fprn_optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
+	optimalOutputFile = open("./output/fpsn_optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
 		(N, b1, b2, ni, ki, di,loopNum), "w")
 
 	for i in range(loopNum):

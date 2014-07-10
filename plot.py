@@ -1,3 +1,8 @@
+'''
+Created on Jul 10, 2014
+@author: Dongsheng Wei(12210240069@fudan.edu.cn)
+'''
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -11,12 +16,12 @@ optimalStd = []
 
 
 for i in b1:
-	random = np.loadtxt("./output/random_1000_%s_120_14_10_10_100.txt" % i)
+	random = np.loadtxt("./output/fpsn_random_1000_%s_120_14_10_10_100.txt" % i)
 	randomMeans.append(np.mean(random, axis = 0)[0])
 	randomStd.append(np.std(random, axis = 0)[0])
 
 
-	optimal = np.loadtxt("./output/optimal_1000_%s_120_14_10_10_100.txt" % i)
+	optimal = np.loadtxt("./output/fpsn_optimal_1000_%s_120_14_10_10_100.txt" % i)
 	optimalMeans.append(np.mean(optimal, axis = 0)[0])
 	optimalStd.append(np.std(optimal, axis = 0)[0])
 
