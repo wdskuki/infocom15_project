@@ -47,3 +47,12 @@ def randomFailedStoredNode(Ni):
 	fnodei = random.choice(Ni)
 	Ni.remove(fnodei)
 	return fnodei, Ni
+
+# Input: 
+#	Graph struct
+#	a node
+# 	a node set
+# Output:
+#	minimum weighted link value between the node to the node's set
+def getBottleNetBW(G, newcomer, providers):
+	return min([G[i][newcomer] for i in providers])
