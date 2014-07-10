@@ -6,9 +6,10 @@ Created on Jul 10, 2014
 import matplotlib.pyplot as plt
 import numpy as np
 
+mytype = "fpsn"
 b1 = [0.3, 1, 10, 30, 50, 70, 90]
 b2 = 120
-(N, ni, ki, di, loopNum) = (1000, 14, 10, 10, 100)
+(N, ni, ki, di, loopNum) = (50, 14, 10, 10, 1000)
 randomMeans = []
 randomStd = []
 optimalMeans = []
@@ -16,12 +17,14 @@ optimalStd = []
 
 
 for i in b1:
-	random = np.loadtxt("./output/fpsn_random_1000_%s_120_14_10_10_100.txt" % i)
+	random = np.loadtxt("./output/%s_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
+		(mytype, N, i, b2, ni, ki, di,loopNum))
 	randomMeans.append(np.mean(random, axis = 0)[0])
 	randomStd.append(np.std(random, axis = 0)[0])
 
 
-	optimal = np.loadtxt("./output/fpsn_optimal_1000_%s_120_14_10_10_100.txt" % i)
+	optimal = np.loadtxt("./output/%s_optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
+		(mytype, N, i, b2, ni, ki, di,loopNum))
 	optimalMeans.append(np.mean(optimal, axis = 0)[0])
 	optimalStd.append(np.std(optimal, axis = 0)[0])
 

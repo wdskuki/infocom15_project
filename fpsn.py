@@ -24,14 +24,9 @@ def optimalSelectNewComer(G, N, Ni, fnodei, providers):
 			newcomer = nc
 	return newcomer
 
-if __name__ == '__main__':
-	N = 1000
-	(b1, b2) = (70, 120)
-	ni = 14
-	ki = 10
-	di = 10
 
-	loopNum = 100
+# fpsn test
+def fpsn(N, b1, b2, ni, ki, di, loopNum):
 
 	randomOutputFile = open("./output/fpsn_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
 		(N, b1, b2, ni, ki, di,loopNum), "w")
@@ -72,3 +67,16 @@ if __name__ == '__main__':
 
 	randomOutputFile.close()
 	optimalOutputFile.close()
+
+
+if __name__ == '__main__':
+	N = 50
+	B1 = [0.3, 1, 10, 30, 50, 70, 90]
+	b2 = 120
+	ni = 14
+	ki = 10
+	di = 10
+	loopNum = 1
+
+	for b1 in B1:
+		fpsn(N, b1, b2, ni, ki, di, loopNum)

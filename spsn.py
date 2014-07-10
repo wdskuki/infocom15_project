@@ -55,15 +55,8 @@ def optimalSelectProviderNewComer(G, N, Ni, fnodei, di):
 			break
 	return newcomer, providers
 
-
-if __name__ == '__main__':
-	N = 1000
-	(b1, b2) = (70, 120)
-	ni = 14
-	ki = 10
-	di = 10
-
-	loopNum = 100
+# spsn test
+def spsn(N, b1, b2, ni, ki, di, loopNum):
 
 	randomOutputFile = open("./output/spsn_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
 		(N, b1, b2, ni, ki, di,loopNum), "w")
@@ -111,3 +104,14 @@ if __name__ == '__main__':
 	#forceOutputFile.close()
 	optimalOutputFile.close()
 
+if __name__ == '__main__':
+	N = 100
+	B1 = [0.3, 1, 10, 30, 50, 70, 90]
+	b2 = 120
+	ni = 14
+	ki = 10
+	di = 10
+	loopNum = 100
+
+	for b1 in B1:
+		spsn(N, b1, b2, ni, ki, di, loopNum)
