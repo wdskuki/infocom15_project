@@ -6,3 +6,6 @@
 2> fpsn.py: fix providers select newcomer
 3> spsn.py: select providers select newcomer
 4> plot.py: plot figure base 'output' directory
+5> main.py: test
+6> rd.py: random select providers & newcomer
+7> spfn.py: TBD
