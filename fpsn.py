@@ -70,13 +70,13 @@ def fpsn(N, b1, b2, ni, ki, di, loopNum):
 
 
 if __name__ == '__main__':
-	N = 50
+	N = 20
 	B1 = [0.3, 1, 10, 30, 50, 70, 90]
 	b2 = 120
-	ni = 14
-	ki = 10
-	di = 10
-	loopNum = 1
+	ni = 10
+	ki = 6
+	di = 8
+	loopNum = 100
 
 	for b1 in B1:
 		fpsn(N, b1, b2, ni, ki, di, loopNum)

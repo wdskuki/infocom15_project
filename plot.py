@@ -7,9 +7,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 mytype = "fpsn"
+N = 20
 b1 = [0.3, 1, 10, 30, 50, 70, 90]
 b2 = 120
-(N, ni, ki, di, loopNum) = (50, 14, 10, 10, 1000)
+ni = 10
+ki = 6
+di = 8
+loopNum = 100
+
 randomMeans = []
 randomStd = []
 optimalMeans = []
@@ -44,7 +49,8 @@ ax.set_title("(N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
 ax.set_xticks(ind+width)
 ax.set_xticklabels( [(b1[i], b2) for i in range(len(b1))] )
 
-ax.legend( (rects1[0], rects2[0]), ('Random', 'Optimal') )
+
+ax.legend( (rects1[0], rects2[0]), ('Random', 'Optimal'), loc = 4)
 
 def autolabel(rects):
     # attach some text labels

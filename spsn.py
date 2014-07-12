@@ -105,7 +105,7 @@ def spsn(N, b1, b2, ni, ki, di, loopNum):
 	optimalOutputFile.close()
 
 if __name__ == '__main__':
-	N = 100
+	N = 20
 	B1 = [0.3, 1, 10, 30, 50, 70, 90]
 	b2 = 120
 	ni = 14
