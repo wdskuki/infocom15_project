@@ -10,7 +10,10 @@ import time
 # Input: number of nodes
 # Output: Graph struct
 def fullConnectedGraph(N = 0):
-	return [[0]*N]*N
+
+	# The shallow copies
+	# return [[0]*N]*N
+	return [[0]*N for i in range(N)] # deep copies
 
 # Input: 
 #	Graph struct
@@ -18,12 +21,15 @@ def fullConnectedGraph(N = 0):
 # Output: 
 #	Weighted graph struct
 def randomLinkWeight(G, (b1, b2)):
-	if len(G) == 0 or b1 > b2 or b1 < 0:
+	# print G
+	row = len(G)
+	col = len(G[0])
+	if row == 0 or b1 > b2 or b1 < 0:
 		print 'error: in randomLinkWeight()'
 		return G
 
-	for i in range(len(G)):
-		for j in range(len(G[i])):
+	for i in range(row):
+		for j in range(col):
 			G[i][j] = random.uniform(b1, b2)
 	return G
 
@@ -55,4 +61,10 @@ def randomFailedStoredNode(Ni):
 # Output:
 #	minimum weighted link value between the node to the node's set
 def getBottleNetBW(G, newcomer, providers):
-	return min([G[i][newcomer] for i in providers])
+	bottleNetBW = G[providers[0]][newcomer]
+	bottleLinkNode = providers[0]
+	for i in providers:
+		if bottleNetBW > G[i][newcomer]:
+			bottleNetBW = G[i][newcomer]
+			bottleLinkNode = i
+	return bottleNetBW, bottleLinkNode

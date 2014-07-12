@@ -6,60 +6,193 @@ Created on Jul 10, 2014
 import matplotlib.pyplot as plt
 import numpy as np
 
-mytype = "fpsn"
-N = 20
-b1 = [0.3, 1, 10, 30, 50, 70, 90]
-b2 = 120
-ni = 10
-ki = 6
-di = 8
-loopNum = 100
+def plot_change_b1(N, B1, b2, ni, ki, di, loopNum):
+	rd_bwMeans = []
+	rd_bwStd = []
+	rd_timeMeans = []
+	rd_timeStd = []
 
-randomMeans = []
-randomStd = []
-optimalMeans = []
-optimalStd = []
+	fpsn_bwMeans = []
+	fpsn_bwStd = []
+	fpsn_timeMeans = []
+	fpsn_timeStd = []
+
+	spsn_bwMeans = []
+	spsn_bwStd = []
+	spsn_timeMeans = []
+	spsn_timeStd = []
+
+	for i in B1:
+		output_bw = np.loadtxt("./output/bw_%s_%s_%s_%s_%s_%s_%s.txt" % \
+			(N, i, b2, ni, ki, di,loopNum))
+		output_time = np.loadtxt("./output/time_%s_%s_%s_%s_%s_%s_%s.txt" % \
+			(N, i, b2, ni, ki, di,loopNum))
+		
+		means_bw = np.mean(output_bw, axis = 0)
+		stds_bw = np.std(output_bw, axis = 0)
+		
+		means_time = np.mean(output_time, axis = 0)
+		stds_time = np.std(output_time, axis = 0)
+
+		rd_bwMeans.append(means_bw[0])
+		rd_bwStd.append(stds_bw[0])
+		rd_timeMeans.append(means_time[0])
+		rd_timeStd.append(stds_time[0])
+
+		fpsn_bwMeans.append(means_bw[1])
+		fpsn_bwStd.append(stds_bw[1])
+		fpsn_timeMeans.append(means_time[1])
+		fpsn_timeStd.append(stds_time[1])
+
+		spsn_bwMeans.append(means_bw[2])
+		spsn_bwStd.append(stds_bw[2])
+		spsn_timeMeans.append(means_time[2])
+		spsn_timeStd.append(stds_time[2])
 
 
-for i in b1:
-	random = np.loadtxt("./output/%s_random_%s_%s_%s_%s_%s_%s_%s.txt" % \
-		(mytype, N, i, b2, ni, ki, di,loopNum))
-	randomMeans.append(np.mean(random, axis = 0)[0])
-	randomStd.append(np.std(random, axis = 0)[0])
+	# plot rd vs fpsn vs spsn in BW
+	plt.figure(1)
+	ind = np.arange(len(B1))  # the x locations for the groups
+	width = 0.25      # the width of the bars
+
+	plt.bar(ind, rd_bwMeans, width, linewidth = '2', color='r', yerr=rd_bwStd)
+	plt.bar(ind+width, fpsn_bwMeans, width, linewidth = '2', color='y', yerr=fpsn_bwStd)
+	plt.bar(ind+2*width, spsn_bwMeans, width, linewidth = '2', color='g', yerr=spsn_bwStd)
+
+	plt.ylabel('BottleNetBW(MB/s)')
+	plt.xlabel('link BW range(MB/s)')
+	plt.title("rd vs fpsn vs spsn \n (N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
+		% (N, ni, ki, di, loopNum))
+
+	plt.xticks(ind+width*1.5, map(lambda x: (x, b2), B1))
+	plt.legend(('rd', 'fpsn', 'spsn'), loc = 4)
+	plt.ylim(0, b2+20)
+	plt.show()
+
+	# plot rd v.s. fpsn in BW
+	plt.figure(2)
+	ind = np.arange(len(B1))  # the x locations for the groups
+	width = 0.35      # the width of the bars
+	plt.bar(ind, rd_bwMeans, width, linewidth = '2', color='r', yerr=rd_bwStd)
+	plt.bar(ind+width, fpsn_bwMeans, width, linewidth = '2', color='y', yerr=fpsn_bwStd)
+
+	plt.ylabel('BottleNetBW(MB/s)')
+	plt.xlabel('link BW range(MB/s)')
+	plt.title("rd v.s. fpsn. (N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
+		% (N, ni, ki, di, loopNum))
+
+	plt.xticks(ind+width, map(lambda x: (x, b2), B1))
+	plt.legend(('rd', 'fpsn'), loc = 4)
+	plt.ylim(0, b2+20)
+	plt.show()
+
+	# plot rd v.s. spsn in BW
+	plt.figure(3)
+	ind = np.arange(len(B1))  # the x locations for the groups
+	width = 0.35      # the width of the bars
+	plt.bar(ind, rd_bwMeans, width, linewidth = '2', color='r', yerr=rd_bwStd)
+	plt.bar(ind+width, spsn_bwMeans, width, linewidth = '2', color='g', yerr=spsn_bwStd)
+
+	plt.ylabel('BottleNetBW(MB/s)')
+	plt.xlabel('link BW range(MB/s)')
+	plt.title("rd vs spsn (N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
+		% (N, ni, ki, di, loopNum))
+
+	plt.xticks(ind+width, map(lambda x: (x, b2), B1))
+	plt.legend(('rd', 'spsn'), loc = 4)
+	plt.ylim(0, b2+20)
+	plt.show()
+
+	# plot rd v.s. fpsn v.s. spsn in Time
+	plt.figure(4)
+	ind = np.arange(len(B1))  # the x locations for the groups
+	width = 0.25      # the width of the bars
+
+	plt.bar(ind, rd_timeMeans, width, linewidth = '2', color='r', yerr=rd_timeStd)
+	plt.bar(ind+width, fpsn_timeMeans, width, linewidth = '2', color='y', yerr=fpsn_timeStd)
+	plt.bar(ind+2*width, spsn_timeMeans, width, linewidth = '2', color='g', yerr=spsn_timeStd)
+
+	plt.xlabel('BottleNetBW(MB/s)')
+	plt.ylabel('Time(s)')
+	plt.title("rd vs fpsn vs spsn \n (N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
+		% (N, ni, ki, di, loopNum))
+
+	plt.xticks(ind+width*1.5, map(lambda x: (x, b2), B1))
+	plt.legend(('rd', 'fpsn', 'spsn'), loc = 2)
+	plt.show()
 
 
-	optimal = np.loadtxt("./output/%s_optimal_%s_%s_%s_%s_%s_%s_%s.txt" % \
-		(mytype, N, i, b2, ni, ki, di,loopNum))
-	optimalMeans.append(np.mean(optimal, axis = 0)[0])
-	optimalStd.append(np.std(optimal, axis = 0)[0])
+def plot_change_N(N, b1, b2, ni, ki, di, loopNum):
+	rd_bwMeans = []
+	rd_bwStd = []
+	rd_timeMeans = []
+	rd_timeStd = []
 
-ind = np.arange(len(b1))  # the x locations for the groups
-width = 0.35       # the width of the bars
+	fpsn_bwMeans = []
+	fpsn_bwStd = []
+	fpsn_timeMeans = []
+	fpsn_timeStd = []
 
-fig, ax = plt.subplots()
-rects1 = ax.bar(ind, randomMeans, width, color='r', yerr=randomStd)
+	spsn_bwMeans = []
+	spsn_bwStd = []
+	spsn_timeMeans = []
+	spsn_timeStd = []
 
-rects2 = ax.bar(ind+width, optimalMeans, width, color='y', yerr=optimalStd)
+	for i in N:
+		output_bw = np.loadtxt("./output/bw_%s_%s_%s_%s_%s_%s_%s.txt" % \
+			(i, b1, b2, ni, ki, di,loopNum))
+		output_time = np.loadtxt("./output/time_%s_%s_%s_%s_%s_%s_%s.txt" % \
+			(i, b1, b2, ni, ki, di,loopNum))
+		
+		means_bw = np.mean(output_bw, axis = 0)
+		stds_bw = np.std(output_bw, axis = 0)
+		
+		means_time = np.mean(output_time, axis = 0)
+		stds_time = np.std(output_time, axis = 0)
 
-# add some
-ax.set_ylabel('BottleNetBW(MB/s)')
-ax.set_xlabel('link BW range(MB/s)')
-ax.set_title("(N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
- % (N, ni, ki, di, loopNum))
-ax.set_xticks(ind+width)
-ax.set_xticklabels( [(b1[i], b2) for i in range(len(b1))] )
+		rd_bwMeans.append(means_bw[0])
+		rd_bwStd.append(stds_bw[0])
+		rd_timeMeans.append(means_time[0])
+		rd_timeStd.append(stds_time[0])
+
+		fpsn_bwMeans.append(means_bw[1])
+		fpsn_bwStd.append(stds_bw[1])
+		fpsn_timeMeans.append(means_time[1])
+		fpsn_timeStd.append(stds_time[1])
+
+		spsn_bwMeans.append(means_bw[2])
+		spsn_bwStd.append(stds_bw[2])
+		spsn_timeMeans.append(means_time[2])
+		spsn_timeStd.append(stds_time[2])
 
 
-ax.legend( (rects1[0], rects2[0]), ('Random', 'Optimal'), loc = 4)
+	# plot rd v.s. fpsn v.s. spsn in Time
+	plt.figure(1)
+	ind = np.arange(len(N))  # the x locations for the groups
+	width = 0.25      # the width of the bars
 
-def autolabel(rects):
-    # attach some text labels
-    for rect in rects:
-        height = rect.get_height()
-        ax.text(rect.get_x()+rect.get_width()/2., 1.05*height, '%d'%int(height),
-                ha='center', va='bottom')
+ 	plt.plot(N, rd_timeMeans, 'r-', N, fpsn_timeMeans, 'ys-', N, spsn_timeMeans,'g^-')
+	# plt.bar(ind, rd_timeMeans, width, linewidth = '2', color='r', yerr=rd_timeStd)
+	# plt.bar(ind+width, fpsn_timeMeans, width, linewidth = '2', color='y', yerr=fpsn_timeStd)
+	# plt.bar(ind+2*width, spsn_timeMeans, width, linewidth = '2', color='g', yerr=spsn_timeStd)
 
-autolabel(rects1)
-autolabel(rects2)
+	plt.xlabel('Total nodes number')
+	plt.ylabel('Time(s)')
+	plt.title("rd vs fpsn vs spsn \n (ni = %s, ki = %s, di = %s, (%s, %s)MB/s, loopNum = %s)"\
+		% (ni, ki, di, b1, b2, loopNum))
 
-plt.show()
+	# plt.xticks(ind+width*1.5, map(lambda x: (x, b2), N))
+	plt.legend(('rd', 'fpsn', 'spsn'), loc = 2)
+	# plt.semilogx()
+	plt.show()
+
+
+if __name__ == '__main__':
+	N = 100
+	b1 = [0.3, 1, 10, 30, 50, 70, 90]
+	b2 = 120
+	ni = 14
+	ki = 8
+	di = 10
+	loopNum = 100
+	plot_change_b1(N, b1, b2, ni, ki, di, loopNum)
