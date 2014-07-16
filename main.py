@@ -99,11 +99,8 @@ def test_change_b1():
 	ki = 8
 	di = 10
 	loopNum = 100
-
-	# for i in b1:
-	# 	mutliLoopTestResult(N, i, b2, ni, ki, di, loopNum)
-	plot.plot_change_b1(N, b1, b2, ni, ki, di, loopNum)
-
+	for i in b1:
+	  	mutliLoopTestResult(N, i, b2, ni, ki, di, loopNum)
 
 def test_change_N():
 	N = range(20,100)
@@ -113,9 +110,9 @@ def test_change_N():
 	ki = 8
 	di = 10
 	loopNum = 100
+	for i in N:
+		mutliLoopTestResult(i, b1, b2, ni, ki, di, loopNum)
 
-	# for i in N:
-	# 	mutliLoopTestResult(i, b1, b2, ni, ki, di, loopNum)
-	plot.plot_change_N(N, b1, b2, ni, ki, di, loopNum)
+
 if __name__ == '__main__':
-#	test_change_b1()
+	test_change_b1()

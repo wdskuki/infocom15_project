@@ -9,3 +9,9 @@
 5> main.py: test
 6> rd.py: random select providers & newcomer
 7> spfn.py: TBD
+
+
++-----------+
+| Hwo to use|
++-----------+
+1> 

@@ -103,23 +103,40 @@ def plot_change_b1(N, B1, b2, ni, ki, di, loopNum):
 	plt.ylim(0, b2+20)
 	plt.show()
 
-	# plot rd v.s. fpsn v.s. spsn in Time
+	# plot rd v.s. spsn in BW
 	plt.figure(4)
 	ind = np.arange(len(B1))  # the x locations for the groups
-	width = 0.25      # the width of the bars
+	width = 0.35      # the width of the bars
+	plt.bar(ind, fpsn_bwMeans, width, linewidth = '2', color='r', yerr=rd_bwStd)
+	plt.bar(ind+width, spsn_bwMeans, width, linewidth = '2', color='g', yerr=spsn_bwStd)
 
-	plt.bar(ind, rd_timeMeans, width, linewidth = '2', color='r', yerr=rd_timeStd)
-	plt.bar(ind+width, fpsn_timeMeans, width, linewidth = '2', color='y', yerr=fpsn_timeStd)
-	plt.bar(ind+2*width, spsn_timeMeans, width, linewidth = '2', color='g', yerr=spsn_timeStd)
-
-	plt.xlabel('BottleNetBW(MB/s)')
-	plt.ylabel('Time(s)')
-	plt.title("rd vs fpsn vs spsn \n (N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
+	plt.ylabel('BottleNetBW(MB/s)')
+	plt.xlabel('link BW range(MB/s)')
+	plt.title("fpsn vs spsn (N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
 		% (N, ni, ki, di, loopNum))
 
-	plt.xticks(ind+width*1.5, map(lambda x: (x, b2), B1))
-	plt.legend(('rd', 'fpsn', 'spsn'), loc = 2)
+	plt.xticks(ind+width, map(lambda x: (x, b2), B1))
+	plt.legend(('fpsn', 'spsn'), loc = 4)
+	plt.ylim(0, b2+20)
 	plt.show()
+
+	# # plot rd v.s. fpsn v.s. spsn in Time
+	# plt.figure(4)
+	# ind = np.arange(len(B1))  # the x locations for the groups
+	# width = 0.25      # the width of the bars
+
+	# plt.bar(ind, rd_timeMeans, width, linewidth = '2', color='r', yerr=rd_timeStd)
+	# plt.bar(ind+width, fpsn_timeMeans, width, linewidth = '2', color='y', yerr=fpsn_timeStd)
+	# plt.bar(ind+2*width, spsn_timeMeans, width, linewidth = '2', color='g', yerr=spsn_timeStd)
+
+	# plt.xlabel('BottleNetBW(MB/s)')
+	# plt.ylabel('Time(s)')
+	# plt.title("rd vs fpsn vs spsn \n (N = %s, ni = %s, ki = %s, di = %s, loopNum = %s)"\
+	# 	% (N, ni, ki, di, loopNum))
+
+	# plt.xticks(ind+width*1.5, map(lambda x: (x, b2), B1))
+	# plt.legend(('rd', 'fpsn', 'spsn'), loc = 2)
+	# plt.show()
 
 
 def plot_change_N(N, b1, b2, ni, ki, di, loopNum):
